@@ -1,0 +1,273 @@
+/* ===== ДИЗАЙН-СИСТЕМА (мобильно-ориентированная) ===== */
+:root {
+  --bg: #0A3E91; /* базовый синий (fallback и для акцентов) */
+  --fg: #e9eef7;
+  --muted: #a7b2c4;
+  --card: #111521;
+  --cardHover: #151a29;
+  --ring: #2a3652;
+  --brand: #0A3D91;
+  --brand2: #2C7CF6;
+  --shadow: 0 8px 24px rgba(2,10,26,.30);
+  --radius: 16px;
+  --speed: .25s;
+  --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+
+  /* Фон-фото + параметры тонировки */
+  --bg-photo: url("./bg.jpg");                 /* <--- файл /assets/bg.jpg */
+  --tint-top: rgba(10, 62, 145, .30);          /* сверху чуть синее, 30% */
+  --tint-btm: rgba(44, 124, 246, .18);         /* снизу голубее, 18% */
+
+  /* Синие карточки (кнопки) — фиксированные HEX (надёжно на ПК) */
+  --btn-top-fixed: #0A3E91;      /* верх = цвет фона */
+  --btn-btm-fixed: #093985;      /* низ ~на 8% темнее */
+  --btn-top-fixed-hover: #0B4199;/* hover: сверху чуть светлее */
+  --btn-btm-fixed-hover: #083577;/* hover: снизу чуть темнее */
+}
+:root[data-theme="light"] {
+  --bg: #f7f9fc;
+  --fg: #0f172a;
+  --muted: #48556a;
+  --card: #ffffff;
+  --cardHover: #f2f5fb;
+  --ring: #dfe6f2;
+  --shadow: 0 6px 18px rgba(14,31,70,.08);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ===== ФОН С ФОТО + ЛЁГКАЯ СИНЯЯ ВУАЛЬ ===== */
+body {
+  margin: 0;
+  background:
+    linear-gradient(180deg, var(--tint-top) 0%, var(--tint-btm) 100%),
+    var(--bg-photo);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: var(--bg); /* fallback, пока фото не загрузилось */
+  color: var(--fg);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* Чуть приятнее на десктопах: эффект «параллакса» */
+@media (min-width: 1024px) {
+  body { background-attachment: fixed; }
+}
+
+/* Контейнер с безопасными отступами для iOS */
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: calc(16px + var(--safe-top)) 16px calc(14px + var(--safe-bottom));
+  display: grid;
+  gap: 18px;
+}
+
+/* ===== HERO ===== */
+.hero {
+  display: grid;
+  gap: 10px;
+  place-items: center;
+  text-align: center;
+  position: relative;
+}
+
+/* Логотип PNG */
+.logo {
+  width: 120px;
+  height: auto;
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(0 6px 18px rgba(44,124,246,.25));
+}
+.logo img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* запасные классы под SVG */
+.logo-ring { fill: none; stroke: var(--brand); stroke-width: 2; opacity: .6; }
+.logo-bear { fill: var(--brand2); opacity: .95; }
+
+h1 {
+  margin: 0;
+  font-size: clamp(22px, 5.6vw, 34px);
+  letter-spacing: .2px;
+}
+.tagline {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(13px, 3.8vw, 15px);
+}
+
+.hero-actions {
+  margin-top: 6px;
+  display: grid;
+  grid-auto-flow: column;
+  gap: 10px;
+}
+
+/* Большие tap-зоны */
+button, .link-card { -webkit-tap-highlight-color: rgba(0,0,0,0); }
+
+/* Переключатель темы (оставлен для совместимости; сам переключатель скрыт из HTML) */
+.theme-toggle {
+  border: 1px solid var(--ring);
+  background: linear-gradient(180deg, var(--card), rgba(0,0,0,.02));
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 10px 12px;
+  display: grid; grid-auto-flow: column; gap: 6px;
+  cursor: pointer;
+  transition: background var(--speed) ease, border-color var(--speed) ease, transform var(--speed) ease;
+  font-size: 14px;
+}
+.theme-toggle:active { transform: scale(.98); }
+
+/* Кнопка QR (стили оставлены, самого элемента нет) */
+.qr-btn {
+  border: 1px solid color-mix(in oklab, var(--ring), var(--brand) 30%);
+  background: linear-gradient(180deg, var(--card), rgba(255,255,255,0.02));
+  color: var(--fg);
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .2px;
+  cursor: pointer;
+  transition: background var(--speed), border-color var(--speed), transform var(--speed);
+}
+.qr-btn:active { transform: scale(.98); }
+
+/* ===== LINK LIST ===== */
+.links { display: grid; gap: 12px; }
+
+/* Карточки */
+.link-card {
+  display: grid;
+  grid-template-columns: 48px 1fr 20px;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 14px 14px 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--ring);
+  text-decoration: none;
+  color: var(--fg);
+  box-shadow: var(--shadow);
+  transition: transform var(--speed) ease, border-color var(--speed) ease, background var(--speed) ease, box-shadow var(--speed) ease;
+  min-height: 64px;
+  justify-items: start;
+  background: linear-gradient(180deg, var(--btn-top-fixed) 0%, var(--btn-btm-fixed) 100%);
+}
+.link-card:hover {
+  background: linear-gradient(180deg, var(--btn-top-fixed-hover) 0%, var(--btn-btm-fixed-hover) 100%);
+}
+.link-card:active { transform: scale(.99); }
+
+.link-card .icon {
+  width: 48px; height: 48px;
+  display: grid; place-items: center;
+  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(44,124,246,.16), rgba(10,61,145,.12));
+  border: 1px solid color-mix(in oklab, var(--ring), var(--brand) 25%);
+}
+.link-card .icon svg { width: 22px; height: 22px; fill: currentColor; color: var(--fg); opacity: .96; }
+
+.link-card .content { display: grid; gap: 2px; justify-self: start; text-align: left; }
+.link-card .content strong {
+  font-weight: 800;
+  letter-spacing: .2px;
+  font-size: clamp(15px, 4.2vw, 17px);
+}
+.link-card .content .sub {
+  color: var(--muted);
+  font-size: clamp(12px, 3.6vw, 14px);
+  line-height: 1.3;
+}
+
+.link-card .chevron { font-size: 18px; color: var(--brand2); opacity: .9; justify-self: end; }
+
+/* Акцентная карточка — та же синева + лёгкое свечение бренда сверху */
+.link-card.primary {
+  background:
+    radial-gradient(420px 60px at 20% 0%, color-mix(in srgb, var(--brand2) 12%, transparent 88%) 0%, transparent 40%),
+    linear-gradient(180deg, var(--btn-top-fixed) 0%, var(--btn-btm-fixed) 100%);
+  border-color: color-mix(in oklab, var(--ring), var(--brand) 40%);
+}
+
+/* Фокус для клавиатуры/скринридеров */
+.link-card:focus-visible, .theme-toggle:focus-visible, .qr-btn:focus-visible, .qr-download:focus-visible, .qr-close:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--brand2), white 10%);
+  outline-offset: 2px;
+  border-radius: 14px;
+}
+
+/* ===== FOOTER ===== */
+.footer { 
+  display: grid; 
+  place-items: center; 
+  padding-top: 4px; 
+  gap: 14px;
+}
+.footer small { color: var(--muted); font-size: 12px; }
+
+/* ===== QR MODAL (используется для модалки «Позвонить») ===== */
+.qr-dialog { border: none; padding: 0; background: transparent; }
+.qr-dialog::backdrop { background: rgba(0,0,0,.5); }
+.qr-card {
+  width: min(92vw, 420px);
+  background: var(--card);
+  border: 1px solid var(--ring);
+  border-radius: 18px;
+  padding: 16px;
+  margin: auto;
+  color: var(--fg);
+  box-shadow: var(--shadow);
+}
+.qr-card h2 { margin: 0 0 2px; font-size: clamp(18px, 5vw, 22px); }
+.qr-sub { margin: 0 0 12px; color: var(--muted); font-size: 13px; }
+.qr-box {
+  display: grid; place-items: center;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  border: 1px solid color-mix(in oklab, var(--ring), #ffffff 40%);
+}
+.qr-actions {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.qr-download, .qr-close {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--ring);
+  background: linear-gradient(180deg, var(--card), rgba(255,255,255,0.02));
+  color: var(--fg);
+  font-weight: 700;
+  letter-spacing: .2px;
+  cursor: pointer;
+  transition: transform var(--speed) ease, background var(--speed) ease;
+}
+.qr-download:active, .qr-close:active { transform: scale(.98); }
+
+/* ===== АДАПТИВ ===== */
+@media (min-width: 480px) {
+  .logo { width: 140px; }
+  .link-card { grid-template-columns: 52px 1fr 24px; min-height: 68px; }
+  .link-card .icon { width: 52px; height: 52px; }
+}
+@media (min-width: 768px) {
+  .container { gap: 22px; }
+}
