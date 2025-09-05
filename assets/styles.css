@@ -16,7 +16,7 @@
   --safe-bottom: env(safe-area-inset-bottom);
 
   /* Фон-фото + параметры тонировки */
-  --bg-photo: url("./bg.jpg");                 /* <--- файл /assets/bg.jpg */
+  --bg-photo: url("./bg.jpg");                 /* файл /assets/bg.jpg */
   --tint-top: rgba(10, 62, 145, .30);          /* сверху чуть синее, 30% */
   --tint-btm: rgba(44, 124, 246, .18);         /* снизу голубее, 18% */
 
@@ -25,6 +25,11 @@
   --btn-btm-fixed: #093985;      /* низ ~на 8% темнее */
   --btn-top-fixed-hover: #0B4199;/* hover: сверху чуть светлее */
   --btn-btm-fixed-hover: #083577;/* hover: снизу чуть темнее */
+
+  /* Параметры свечения логотипа — холодный белый */
+  --glow1: rgba(255,255,255,.95);   /* ядро */
+  --glow2: rgba(220,235,255,.70);   /* внешний мягкий холодный ореол */
+  --glow3: rgba(190,215,255,.45);   /* дальнее рассеяние */
 }
 :root[data-theme="light"] {
   --bg: #f7f9fc;
@@ -56,7 +61,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-/* Чуть приятнее на десктопах: эффект «параллакса» */
 @media (min-width: 1024px) {
   body { background-attachment: fixed; }
 }
@@ -79,13 +83,27 @@ body {
   position: relative;
 }
 
-/* Логотип PNG */
+/* ЛОГОТИП — холодное белое свечение */
 .logo {
   width: 120px;
   height: auto;
   display: grid;
   place-items: center;
-  filter: drop-shadow(0 6px 18px rgba(44,124,246,.25));
+  position: relative; /* для псевдослоя */
+}
+.logo::after {
+  /* мягкий halo вокруг логотипа (как от лампы) */
+  content: "";
+  position: absolute;
+  inset: -18px;
+  border-radius: 999px;
+  pointer-events: none;
+  background: radial-gradient(closest-side,
+    rgba(255,255,255,.22),
+    rgba(220,235,255,.10) 45%,
+    transparent 70%);
+  filter: blur(10px);
+  z-index: -1;
 }
 .logo img {
   width: 100%;
@@ -93,9 +111,14 @@ body {
   object-fit: contain;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
+  /* три слоя белого холодного свечения */
+  filter:
+    drop-shadow(0 0 10px var(--glow1))
+    drop-shadow(0 0 24px var(--glow2))
+    drop-shadow(0 0 48px var(--glow3));
 }
 
-/* запасные классы под SVG */
+/* запасные классы под SVG (оставлены без изменений) */
 .logo-ring { fill: none; stroke: var(--brand); stroke-width: 2; opacity: .6; }
 .logo-bear { fill: var(--brand2); opacity: .95; }
 
