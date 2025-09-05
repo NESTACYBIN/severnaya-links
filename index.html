@@ -14,11 +14,10 @@
     <!-- HERO -->
     <header class="hero" aria-labelledby="brand">
       <div class="logo">
-        <!-- ЗАМЕНА: ставим ваш PNG-логотип без фона -->
+        <!-- Логотип PNG без фона -->
         <img src="./assets/logo.png" alt="Логотип Северной компании" />
       </div>
       <h1 id="brand">Северная Компания</h1>
-
     </header>
 
     <!-- ССЫЛКИ -->
@@ -88,105 +87,71 @@
       </a>
     </section>
     
-<!-- Позвонить -->
-<!-- Позвонить -->
-<button class="link-card" id="callOpen" type="button" aria-haspopup="dialog" aria-controls="callDialog">
-  <span class="icon" aria-hidden="true">
-    <!-- Иконка телефона -->
-    <svg viewBox="0 0 24 24">
-      <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.05-.24 11.36 11.36 0 003.56.57 1 1 0 011 1v3.61a1 1 0 01-1 1A17.91 17.91 0 012 6a1 1 0 011-1h3.61a1 1 0 011 1 11.36 11.36 0 00.57 3.56 1 1 0 01-.24 1.05l-2.32 2.18z"/>
-    </svg>
-  </span>
-  <div class="content">
-    <strong>Позвонить</strong>
-    <span class="sub">+7 (4912) 70-70-00</span>
-  </div>
-  <span class="chevron" aria-hidden="true">➜</span>
-</button>
+    <!-- Позвонить -->
+    <button class="link-card" id="callOpen" type="button" aria-haspopup="dialog" aria-controls="callDialog">
+      <span class="icon" aria-hidden="true">
+        <!-- Иконка телефона -->
+        <svg viewBox="0 0 24 24">
+          <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.05-.24 11.36 11.36 0 003.56.57 1 1 0 011 1v3.61a1 1 0 01-1 1A17.91 17.91 0 012 6a1 1 0 011-1h3.61a1 1 0 011 1 11.36 11.36 0 00.57 3.56 1 1 0 01-.24 1.05l-2.32 2.18z"/>
+        </svg>
+      </span>
+      <div class="content">
+        <strong>Позвонить</strong>
+        <span class="sub">+7 (4912) 70-70-00</span>
+      </div>
+      <span class="chevron" aria-hidden="true">➜</span>
+    </button>
     
     <!-- ФУТЕР -->
-<footer class="footer">
-  <small>
-    <a href="https://sk62.ru/page/about" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">
-      © <span id="year"></span> Северная Компания. Все права защищены.
-    </a>
-  </small>
-  <small class="legal-note"><em>
-
-
+    <footer class="footer">
+      <small>
+        <a href="https://sk62.ru/page/about" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">
+          © <span id="year"></span> Северная Компания. Все права защищены.
+        </a>
+      </small>
+      <small class="legal-note"><em>
 * Meta Platforms Inc. признана экстремистской организацией и запрещена на территории РФ.</em></small>
-</footer>
-
+    </footer>
   </main>
 
-  <!-- МОДАЛКА QR (без изменений) -->
-
-  <!-- Если файл отсутствует — просто не загрузится. Код ниже это учитывает. -->
-
- <script>
-  // Уже было:
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  // Открытие/закрытие модалки и вызов
-  (function () {
-    const dlg = document.getElementById('callDialog');
-    const openBtn = document.getElementById('callOpen');
-    const goBtn = document.getElementById('callGo');
-    const closeBtn = document.getElementById('callClose');
-    const tel = '+74912707000';
-
-    if (openBtn) {
-      openBtn.addEventListener('click', () => {
-        if (dlg && typeof dlg.showModal === 'function') {
-          dlg.showModal();
-        } else {
-          // если диалоги не поддерживаются — звоним сразу
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    (function () {
+      const dlg = document.getElementById('callDialog');
+      const openBtn = document.getElementById('callOpen');
+      const goBtn = document.getElementById('callGo');
+      const closeBtn = document.getElementById('callClose');
+      const tel = '+74912707000';
+      if (openBtn) {
+        openBtn.addEventListener('click', () => {
+          if (dlg && typeof dlg.showModal === 'function') dlg.showModal();
+          else window.location.href = 'tel:' + tel;
+        });
+      }
+      if (goBtn) {
+        goBtn.addEventListener('click', () => {
           window.location.href = 'tel:' + tel;
-        }
-      });
-    }
-    if (goBtn) {
-      goBtn.addEventListener('click', () => {
-        window.location.href = 'tel:' + tel;
-        if (dlg && typeof dlg.close === 'function') dlg.close();
-      });
-    }
-    if (closeBtn) {
-      closeBtn.addEventListener('click', () => dlg.close());
-    }
-  })();
-</script>
+          if (dlg && typeof dlg.close === 'function') dlg.close();
+        });
+      }
+      if (closeBtn) closeBtn.addEventListener('click', () => dlg.close());
+    })();
+  </script>
 
-  
-   <dialog id="callDialog" class="qr-dialog" aria-labelledby="callTitle">
-  <div class="qr-card">
-    <h2 id="callTitle">Позвонить</h2>
-    <p class="qr-sub">Номер офиса продаж</p>
-    <div class="qr-box" style="background:transparent;border:none;padding:0;">
-      <div style="font-size:20px;font-weight:700;color:var(--fg);">
-        +7 (4912) 70-70-00
+  <dialog id="callDialog" class="qr-dialog" aria-labelledby="callTitle">
+    <div class="qr-card">
+      <h2 id="callTitle">Позвонить</h2>
+      <p class="qr-sub">Номер офиса продаж</p>
+      <div class="qr-box" style="background:transparent;border:none;padding:0;">
+        <div style="font-size:20px;font-weight:700;color:var(--fg);">
+          +7 (4912) 70-70-00
+        </div>
+      </div>
+      <div class="qr-actions">
+        <button id="callGo" class="qr-download" type="button">Вызов</button>
+        <button id="callClose" class="qr-close" type="button">Закрыть</button>
       </div>
     </div>
-    <div class="qr-actions">
-      <button id="callGo" class="qr-download" type="button">Вызов</button>
-      <button id="callClose" class="qr-close" type="button">Закрыть</button>
-    </div>
-  </div>
-</dialog>
-  
+  </dialog>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
